@@ -1,0 +1,13 @@
+
+-----------------------------------------------------------------------
+
+We compute several models for sentence generation.
+
+-----------------------------------------------------------------------
+
+The models have different combinations of the following hyperparameters:
+	loss: least_square, cross-entropy, NCE.
+	trainable word embedding: True, False.
+	nb_layers:1,2,3,4.
+
+-----------------------------------------------------------------------
