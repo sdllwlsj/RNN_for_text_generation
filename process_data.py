@@ -2,7 +2,7 @@ import os
 import numpy as np 
 from utils import create_emb_model
 from nltk.tokenize import word_tokenize
-from params import DEBUG,SEED
+from params import *
 
 
 def create_corpus(source):
@@ -42,10 +42,10 @@ def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 		source.append(open('./data/files/'+file,'r'))
 		if debug:
 			break
-	print('\n')
+	print('\n'+'-'*40)
 	corpus=create_corpus(source)
 
-	emb_matrix,w2t,t2w = create_emb_model(corpus)
+	emb_matrix,w2t,t2w = create_emb_model(corpus,RANDOM_EMB)
 
 	corpus_tokens=[w2t[word] for word in word_tokenize(corpus) if word in w2t]
 	
@@ -62,9 +62,18 @@ def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 	
 	data_train=np.array([data_train[i*batch_size:(i+1)*batch_size] for i in range(len(data_train)//batch_size)])
 	
+
+	data_train=np.swapaxes(np.swapaxes(data_train,1,3),2,3)
+	
+	data_val=np.swapaxes(np.swapaxes(data_val,0,2),1,2)
+
+	data_test=np.swapaxes(np.swapaxes(data_test,0,2),1,2)
+
 	#Uncomment the following if you want to train the val and test by batches.
 	#data_val=np.array([data_val[i*batch_size:(i+1)*batch_size] for i in range(len(data_val)//batch_size)])
 	#data_test=np.array([data_test[i*batch_size:(i+1)*batch_size] for i in range(len(data_test)//batch_size)])
 
 	return data_train,data_val,data_test,emb_matrix,w2t,t2w
+
+
 	
