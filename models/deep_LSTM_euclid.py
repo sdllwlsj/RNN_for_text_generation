@@ -80,11 +80,11 @@ class LSTMmodel:
 
 		folder_to_save=make_dir(folder_to_save)
 
-
-		print('Training LSTM with euclid loss.')
-
+		current_message='Training LSTM with euclid loss.\n'
 		#This is not the right way, but meanwhile
-		print('Model will be save at ./'+folder_to_save[folder_to_save.find('tion/')+5:])
+		current_message+='Model will be save at ./'+folder_to_save[folder_to_save.find('tion/')+5:]+'\n'
+
+		print(current_message)
 
 
 		saver = tf.train.Saver()
@@ -107,13 +107,15 @@ class LSTMmodel:
 
 			initial_step = self.global_step.eval()//len(train_data)
 
-			print("The initial step is %d"%initial_step)
+			current_message="The initial step is %d"%initial_step+"\n"
+			print(current_message)
 
 
 			for i in range(initial_step,initial_step+nb_train_steps):
 				for j,data_Xy in train_data:
 
 					global_step=i*len(train_data)+j
+
 					print("Epoch %d out of %d, step %d"%(i+1,nb_train_steps+initial_step,global_step),end='\r')
 
 					X_batch,y_batch = data_Xy

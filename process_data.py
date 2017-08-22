@@ -19,7 +19,7 @@ def create_corpus(source):
 
 
 
-def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
+def process_data(log_file,look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 	"""process the data from the /data/files folder
 
 	Args:
@@ -34,10 +34,15 @@ def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 	path=os.getcwd()
 	file_names=os.listdir(path+'/data/files')
 
-	print('The following files will be used:')
+
+	current_message='The following files will be used:\n'
+	log_file.write(current_message)
+	print(current_message)
+
 	
 	source=[]
 	for file in file_names:
+		log_file.write(file+'\n')
 		print(file)
 		source.append(open('./data/files/'+file,'r'))
 		if debug:
@@ -73,8 +78,9 @@ def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 	#data_val=np.array([data_val[i*batch_size:(i+1)*batch_size] for i in range(len(data_val)//batch_size)])
 	#data_test=np.array([data_test[i*batch_size:(i+1)*batch_size] for i in range(len(data_test)//batch_size)])
 
-	print('There are %d words in the vocabulary.'%len(w2t))
-	print('\n'+'-'*60)
+	current_message='There are %d words in the vocabulary.'%len(w2t)+'\n'
+	log_file.write(current_message)
+	print(current_message)
 
 	return data_train,data_val,data_test,emb_matrix,w2t,t2w
 
