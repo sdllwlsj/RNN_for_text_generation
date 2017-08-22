@@ -21,19 +21,30 @@ def main():
 	data_train, data_val, data_test,emb_matrix,w2t,t2w=process_data(debug=DEBUG)
 
 
-	for nb_layers in range(1,5):
+	if not DEBUG:
+		for nb_layers in range(1,5):
 
 
-		tf.reset_default_graph()
+			tf.reset_default_graph()
 
-		model=deep_LSTM_euclid.LSTMmodel(emb_matrix=emb_matrix,nb_layers=nb_layers)
-		model.build_graph()
+			model=deep_LSTM_euclid.LSTMmodel(emb_matrix=emb_matrix,nb_layers=nb_layers)
+			model.build_graph()
 
-		model.train(data_train,data_val,nb_train_steps=5,folder_to_save='temp'+str(nb_layers))
-
-
+			model.train(data_train,data_val,nb_train_steps=5,folder_to_save='temp'+str(nb_layers))
 
 
+	else:
+		for nb_layers in range(1,5):
+
+
+			tf.reset_default_graph()
+
+			model=deep_LSTM_nce.LSTMmodel(emb_matrix=emb_matrix,nb_layers=nb_layers)
+			#model=deep_LSTM_cross_entropy.LSTMmodel(emb_matrix=emb_matrix,nb_layers=nb_layers)
+			model.build_graph()
+			model.train(data_train,data_val,nb_train_steps=5,folder_to_save='temp'+str(nb_layers))
+
+			break
 
 	
 

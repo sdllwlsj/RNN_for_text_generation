@@ -30,11 +30,13 @@ def _create_emb_model(corpus,emb_size):
 	t2w={}
 	emb_matrix=[]
 	raw_sentences = sent_tokenize(corpus)
+	
 	sentences=[]
+	
 	for sentence in raw_sentences:
 	    sentences+=[word_tokenize(sentence)]
 
-	emb_model=w2v.Word2Vec(sentences,size=100)
+	emb_model=w2v.Word2Vec(sentences,size=100,min_count=2)
 
 	for i,word in enumerate(emb_model.wv.vocab.keys()):
 		w2t[word]=i
@@ -62,8 +64,10 @@ def _create_emb_model_random(corpus,emb_size):
 def make_dir(name):
     """ Create a directory if there isn't one already. """
     path=os.getcwd()+'/'+name
+    
     try:
         os.mkdir(path)
     except OSError:
     	pass
+
     return path

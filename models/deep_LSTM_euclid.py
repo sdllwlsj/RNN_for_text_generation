@@ -30,11 +30,6 @@ class LSTMmodel:
 		with tf.name_scope("output_data"):	
 			self.output_words=tf.placeholder(shape=(None,self.look_back),dtype=tf.int32,name='output_tokens')
 
-		# with tf.name_scope("input_data"):
-		# 	self.input_words=tf.placeholder(shape=(self.batch_size,self.look_back),dtype=tf.int32,name='input_tokens')
-		# with tf.name_scope("output_data"):	
-		# 	self.output_words=tf.placeholder(shape=(self.batch_size,self.look_back),dtype=tf.int32,name='output_tokens')
-
 
 	def _create_embedding(self,trainable=False):
 		with tf.name_scope("embedding"):
