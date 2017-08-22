@@ -89,8 +89,10 @@ class LSTMmodel:
 		folder_to_save=make_dir(folder_to_save)
 
 
-		print('Training LSTM with euclid loss for number of layers = %d'%self.nb_layers)
-		print('Model will be save at '+folder_to_save)
+		print('Training LSTM with cross entropy loss')
+
+		#This is not the right way, but meanwhile
+		print('Model will be save at ./'+folder_to_save[folder_to_save.find('tion/')+5:])
 
 
 		saver = tf.train.Saver()

@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/felipe/Documents/Jupyter/python3/NLP/RNN_for_text_generation/results/LSTM_euclid_layers_4_look_back_20/step-69"
+all_model_checkpoint_paths: "/home/felipe/Documents/Jupyter/python3/NLP/RNN_for_text_generation/results/LSTM_euclid_layers_4_look_back_20/step-69"

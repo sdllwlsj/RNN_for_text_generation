@@ -42,7 +42,7 @@ def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 		source.append(open('./data/files/'+file,'r'))
 		if debug:
 			break
-	print('\n'+'-'*40)
+
 	corpus=create_corpus(source)
 
 	emb_matrix,w2t,t2w = create_emb_model(corpus,RANDOM_EMB)
@@ -74,6 +74,7 @@ def process_data(look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=False):
 	#data_test=np.array([data_test[i*batch_size:(i+1)*batch_size] for i in range(len(data_test)//batch_size)])
 
 	print('There are %d words in the vocabulary.'%len(w2t))
+	print('\n'+'-'*60)
 
 	return data_train,data_val,data_test,emb_matrix,w2t,t2w
 

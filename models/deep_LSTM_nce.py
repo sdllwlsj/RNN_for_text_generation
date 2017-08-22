@@ -57,13 +57,10 @@ class LSTMmodel:
 
 	def _create_loss(self):
 
-
-		self.output_vectors= tf.one_hot(self.output_words[:,-1],self.vocab_size)
+		self.output_vectors= tf.reshape(self.output_words[:,-1],shape=(-1,1))
 		self.pred_output=self.pred_output[:,-1,:]
 
-
-		#should we use tf.nn.sampled_softmax_loss()
-		self.loss = tf.reduce_mean(tf.nn.nce_loss(weights=self.nce_weights,biases=self.nce_bias,
+		self.loss = tf.reduce_mean(tf.nn.sampled_softmax_loss(weights=self.nce_weights,biases=self.nce_bias,
 			labels=self.output_vectors,inputs=self.pred_output,
 			num_sampled=int(0.1*self.vocab_size),num_classes=self.vocab_size,num_true=1))
 
@@ -99,8 +96,10 @@ class LSTMmodel:
 		folder_to_save=make_dir(folder_to_save)
 
 
-		print('Training LSTM with euclid loss for number of layers = %d'%self.nb_layers)
-		print('Model will be save at '+folder_to_save)
+		print('Training LSTM with NCE loss.')
+
+		#This is not the right way, but meanwhile
+		print('Model will be save at ./'+folder_to_save[folder_to_save.find('tion/')+5:])
 
 
 		saver = tf.train.Saver()
