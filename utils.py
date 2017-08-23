@@ -2,6 +2,7 @@ import numpy as np
 import os 
 from nltk.tokenize import word_tokenize,sent_tokenize
 import gensim.models.word2vec as w2v
+from params import *
 
 
 def create_emb_model(corpus,random=False,emb_size=100):
@@ -45,7 +46,7 @@ def _create_emb_model(corpus,emb_size):
 
 	emb_matrix=np.array(emb_matrix)
 	
-	return emb_matrix,w2t,t2w
+	return emb_matrix,w2t,t2w,emb_model
 
 
 def _create_emb_model_random(corpus,emb_size):
@@ -57,7 +58,7 @@ def _create_emb_model_random(corpus,emb_size):
 
 	emb_matrix=np.random.random(size=[len(w2t), emb_size])
 
-	return emb_matrix,w2t,t2w
+	return emb_matrix,w2t,t2w, None
 
 
 
@@ -71,3 +72,4 @@ def make_dir(name):
     	pass
 
     return path
+

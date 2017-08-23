@@ -50,7 +50,7 @@ def process_data(log_file,look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=
 
 	corpus=create_corpus(source)
 
-	emb_matrix,w2t,t2w = create_emb_model(corpus,RANDOM_EMB)
+	emb_matrix,w2t,t2w,emb_model = create_emb_model(corpus,RANDOM_EMB)
 
 	corpus_tokens=[w2t[word] for word in word_tokenize(corpus) if word in w2t]
 	
@@ -82,7 +82,7 @@ def process_data(log_file,look_back=4,batch_size=1024,split=[0.7,0.2,0.1],debug=
 	log_file.write(current_message)
 	print(current_message)
 
-	return data_train,data_val,data_test,emb_matrix,w2t,t2w
+	return data_train,data_val,data_test,emb_matrix,w2t,t2w,emb_model
 
 
 	

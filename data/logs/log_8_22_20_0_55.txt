@@ -1,0 +1,91 @@
+
+-----------------------------------------------------------------------
+
+We compute several models for sentence generation.
+
+-----------------------------------------------------------------------
+
+The models have different combinations of the following hyperparameters:
+	loss: least_square, cross-entropy, NCE.
+	trainable word embedding: True, False.
+	nb_layers:1,2,3,4.
+
+-----------------------------------------------------------------------
+------------------------------------------------------------
+Preparing data for look_back of 4
+The following files will be used:
+profundis.txt
+There are 1583 words in the vocabulary.
+Data took 0.97 seconds to prepare.
+
+------------------------------------------------------------
+Model Euclid with 1 layers took 22.67 for building and training.
+----------------------------------------
+Model Euclid with 2 layers took 11.36 for building and training.
+----------------------------------------
+Model Euclid with 4 layers took 20.35 for building and training.
+----------------------------------------
+Model Entropy with 1 layers took 39.09 for building and training.
+----------------------------------------
+Model Entropy with 2 layers took 59.19 for building and training.
+----------------------------------------
+Model Entropy with 4 layers took 88.57 for building and training.
+----------------------------------------
+Model NCE with 1 layers took 103.15 for building and training.
+----------------------------------------
+Model NCE with 2 layers took 120.64 for building and training.
+----------------------------------------
+Model NCE with 4 layers took 147.18 for building and training.
+----------------------------------------
+------------------------------------------------------------
+Preparing data for look_back of 8
+The following files will be used:
+profundis.txt
+There are 1583 words in the vocabulary.
+Data took 0.84 seconds to prepare.
+
+------------------------------------------------------------
+Model Euclid with 1 layers took 12.15 for building and training.
+----------------------------------------
+Model Euclid with 2 layers took 16.46 for building and training.
+----------------------------------------
+Model Euclid with 4 layers took 31.36 for building and training.
+----------------------------------------
+Model Entropy with 1 layers took 59.24 for building and training.
+----------------------------------------
+Model Entropy with 2 layers took 84.45 for building and training.
+----------------------------------------
+Model Entropy with 4 layers took 129.93 for building and training.
+----------------------------------------
+Model NCE with 1 layers took 147.12 for building and training.
+----------------------------------------
+Model NCE with 2 layers took 177.27 for building and training.
+----------------------------------------
+Model NCE with 4 layers took 220.22 for building and training.
+----------------------------------------
+------------------------------------------------------------
+Preparing data for look_back of 20
+The following files will be used:
+profundis.txt
+There are 1583 words in the vocabulary.
+Data took 0.89 seconds to prepare.
+
+------------------------------------------------------------
+Model Euclid with 1 layers took 29.20 for building and training.
+----------------------------------------
+Model Euclid with 2 layers took 28.89 for building and training.
+----------------------------------------
+Model Euclid with 4 layers took 59.03 for building and training.
+----------------------------------------
+Model Entropy with 1 layers took 97.84 for building and training.
+----------------------------------------
+Model Entropy with 2 layers took 141.65 for building and training.
+----------------------------------------
+Model Entropy with 4 layers took 211.35 for building and training.
+----------------------------------------
+Model NCE with 1 layers took 238.77 for building and training.
+----------------------------------------
+Model NCE with 2 layers took 281.31 for building and training.
+----------------------------------------
+Model NCE with 4 layers took 350.87 for building and training.
+----------------------------------------

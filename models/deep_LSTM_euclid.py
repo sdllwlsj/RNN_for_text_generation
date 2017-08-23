@@ -80,6 +80,8 @@ class LSTMmodel:
 
 		folder_to_save=make_dir(folder_to_save)
 
+		self.folder_to_save=folder_to_save
+
 		current_message='Training LSTM with euclid loss.\n'
 		#This is not the right way, but meanwhile
 		current_message+='Model will be save at ./'+folder_to_save[folder_to_save.find('tion/')+5:]+'\n'
@@ -134,4 +136,53 @@ class LSTMmodel:
 					saver.save(sess, folder_to_save+"/step", global_step)
 			print("\n")
 
+	def predict(self, data):
+		
+		folder_to_save=self.folder_to_save
+		saver = tf.train.Saver()
 
+		with tf.Session() as sess:
+
+			sess.run(tf.global_variables_initializer())
+
+			ckpt = tf.train.get_checkpoint_state(folder_to_save)
+
+			if ckpt:
+				saver.restore(sess,ckpt.model_checkpoint_path)
+
+			X_batch=data
+			feed_dict={self.input_words:X_batch}
+
+			return sess.run(self.pred_output,feed_dict=feed_dict)
+
+	def create_story(self,emb_model,w2t,t2w,beginning):
+
+		story=[w2t[word] if word in w2t else 0 for word in beginning ][:self.look_back]
+
+		folder_to_save=self.folder_to_save
+		saver = tf.train.Saver()
+
+		with tf.Session() as sess:
+
+			sess.run(tf.global_variables_initializer())
+
+			ckpt = tf.train.get_checkpoint_state(folder_to_save)
+
+			if ckpt:
+				saver.restore(sess,ckpt.model_checkpoint_path)
+
+			
+
+			for i in range(STORY_LENGTH):
+
+				X_batch=[story[-self.look_back:]]
+				feed_dict={self.input_words:X_batch}
+
+				next_token=sess.run(self.pred_output,feed_dict=feed_dict)
+				next_word=next_token[0,-1,:]
+
+				story+=[w2t[emb_model.most_similar([next_word])[0][0]]]
+		
+		stories_file=open(folder_to_save+'/story.txt','a')
+		story = ' '.join([t2w[token] for token in story])
+		stories_file.write(story+'\n \n')

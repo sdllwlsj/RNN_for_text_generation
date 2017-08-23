@@ -11,7 +11,8 @@ import numpy as np
 import time
 from process_data import process_data
 from models import deep_LSTM_euclid,deep_LSTM_cross_entropy,deep_LSTM_nce
-from params import DEBUG,SEED,SKIP_STEP, RANDOM_EMB
+from params import *
+from nltk.tokenize import word_tokenize
 
 
 def main():
@@ -32,8 +33,11 @@ def main():
 	log_file.write(current_message)
 	print(current_message)
 
+	beginnings_file=open('./data/starting_sentences.txt','r')
 
+	beginnings=[word_tokenize(beginning) for beginning in beginnings_file.readlines()]
 
+	
 	if DEBUG:
 
 		print('RUNNING IN DEBUGGING MODE!')
@@ -49,13 +53,14 @@ def main():
 
 			start_time=time.time()
 			
-			data_train, data_val, data_test,emb_matrix,w2t,t2w=process_data(log_file=log_file,look_back=look_back, debug=DEBUG)
+			data_train, data_val, data_test,emb_matrix,w2t,t2w,emb_model=process_data(log_file=log_file,look_back=look_back, debug=DEBUG)
 
-
+		
 			current_message="Data took %.2f seconds to prepare." % (time.time() - start_time)+'\n'
 			current_message+='\n'+'-'*60+'\n'
 			log_file.write(current_message)
 			print(current_message)
+			
 			#LSTM Euclid loss
 
 			for nb_layers in [1,2,4]:
@@ -73,6 +78,10 @@ def main():
 				log_file.write(current_message)
 				print(current_message)
 
+				for beginning in beginnings:
+					model.create_story(emb_model=emb_model,w2t=w2t,t2w=t2w,beginning=beginning)
+
+
 			#LSTM Cross Entropy loss
 
 			for nb_layers in [1,2,4]:
@@ -87,6 +96,9 @@ def main():
 				current_message+='\n'+'-'*40+'\n'
 				log_file.write(current_message)
 				print(current_message)
+
+				for beginning in beginnings:
+					model.create_story(w2t=w2t,t2w=t2w,beginning=beginning)
 
 			#LSTM NCE loss
 
@@ -103,6 +115,9 @@ def main():
 				log_file.write(current_message)
 				print(current_message)
 
+				for beginning in beginnings:
+					model.create_story(w2t=w2t,t2w=t2w,beginning=beginning)
+
 
 	else:
 
@@ -118,6 +133,7 @@ def main():
 			start_time=time.time()
 			
 			data_train, data_val, data_test,emb_matrix,w2t,t2w=process_data(look_back=look_back, debug=DEBUG)
+
 
 
 			current_message="Data took %.2f seconds to prepare." % (time.time() - start_time)+'\n'
@@ -143,6 +159,10 @@ def main():
 				log_file.write(current_message)
 				print(current_message)
 
+				
+				for beginning in beginnings:
+					model.create_story(emb_model=emb_model,w2t=w2t,t2w=t2w,beginning=beginning)
+
 
 			#LSTM Cross Entropy loss
 
@@ -158,6 +178,10 @@ def main():
 				current_message+='\n'+'-'*40+'\n'
 				log_file.write(current_message)
 				print(current_message)
+
+				for beginning in beginnings:
+					model.create_story(w2t=w2t,t2w=t2w,beginning=beginning)
+
 
 
 			#LSTM NCE loss
@@ -175,6 +199,8 @@ def main():
 				log_file.write(current_message)
 				print(current_message)
 
+				for beginning in beginnings:
+					model.create_story(w2t=w2t,t2w=t2w,beginning=beginning)
 
 
 if __name__=='__main__':

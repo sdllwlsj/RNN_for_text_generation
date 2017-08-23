@@ -54,13 +54,14 @@ class LSTMmodel:
 			self.nce_weights=tf.Variable(tf.random_normal([self.vocab_size,self.emb_size], stddev=1.0 / self.emb_size**0.5),trainable=trainable,dtype=tf.float32)
 			self.nce_bias=tf.Variable(tf.zeros([self.vocab_size]),dtype=tf.float32)
 
+			self.pred_output_computed=tf.matmul(self.pred_output[:,-1,:],tf.transpose(self.nce_weights))+self.nce_bias
 
 	def _create_loss(self):
 
 		self.output_vectors= tf.reshape(self.output_words[:,-1],shape=(-1,1))
 		self.pred_output=self.pred_output[:,-1,:]
 
-		self.loss = tf.reduce_mean(tf.nn.sampled_softmax_loss(weights=self.nce_weights,biases=self.nce_bias,
+		self.loss = tf.reduce_mean(tf.nn.nce_loss(weights=self.nce_weights,biases=self.nce_bias,
 			labels=self.output_vectors,inputs=self.pred_output,
 			num_sampled=int(0.1*self.vocab_size),num_classes=self.vocab_size,num_true=1))
 
@@ -95,6 +96,7 @@ class LSTMmodel:
 
 		folder_to_save=make_dir(folder_to_save)
 
+		self.folder_to_save=folder_to_save
 
 		print('Training LSTM with NCE loss.')
 
@@ -146,5 +148,39 @@ class LSTMmodel:
 				if (i+1)%SKIP_STEP==0:
 					saver.save(sess, folder_to_save+"/step", global_step)
 			print("\n")
+
+
+	def create_story(self,w2t,t2w,beginning):
+
+		story=[w2t[word] if word in w2t else 0 for word in beginning ][:self.look_back]
+
+		folder_to_save=self.folder_to_save
+		saver = tf.train.Saver()
+
+		with tf.Session() as sess:
+
+			sess.run(tf.global_variables_initializer())
+
+			ckpt = tf.train.get_checkpoint_state(folder_to_save)
+
+			if ckpt:
+				saver.restore(sess,ckpt.model_checkpoint_path)
+
+			for i in range(STORY_LENGTH):
+
+				X_batch=[story[-self.look_back:]]
+				feed_dict={self.input_words:X_batch}
+
+				next_token=sess.run(self.pred_output_computed,feed_dict=feed_dict)
+				next_word=np.argmax(next_token[0])
+
+				#print(next_word.shape)
+
+				story+=[next_word]
+		
+		stories_file=open(folder_to_save+'/story.txt','a')
+		story = ' '.join([t2w[token] for token in story])
+		stories_file.write(story+'\n \n')
+
 
 

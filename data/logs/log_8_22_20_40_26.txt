@@ -1,0 +1,53 @@
+
+-----------------------------------------------------------------------
+
+We compute several models for sentence generation.
+
+-----------------------------------------------------------------------
+
+The models have different combinations of the following hyperparameters:
+	loss: least_square, cross-entropy, NCE.
+	trainable word embedding: True, False.
+	nb_layers:1,2,3,4.
+
+-----------------------------------------------------------------------
+------------------------------------------------------------
+Preparing data for look_back of 4
+The following files will be used:
+profundis.txt
+There are 1583 words in the vocabulary.
+Data took 0.55 seconds to prepare.
+
+------------------------------------------------------------
+Model Euclid with 1 layers took 11.73 for building and training.
+----------------------------------------
+Model Euclid with 2 layers took 6.93 for building and training.
+----------------------------------------
+Model Euclid with 4 layers took 12.24 for building and training.
+----------------------------------------
+Model Entropy with 1 layers took 27.42 for building and training.
+----------------------------------------
+Model Entropy with 2 layers took 42.20 for building and training.
+----------------------------------------
+Model Entropy with 4 layers took 63.80 for building and training.
+----------------------------------------
+Model NCE with 1 layers took 74.18 for building and training.
+----------------------------------------
+Model NCE with 2 layers took 85.83 for building and training.
+----------------------------------------
+Model NCE with 4 layers took 105.32 for building and training.
+----------------------------------------
+------------------------------------------------------------
+Preparing data for look_back of 8
+The following files will be used:
+profundis.txt
+There are 1583 words in the vocabulary.
+Data took 0.53 seconds to prepare.
+
+------------------------------------------------------------
+Model Euclid with 1 layers took 7.74 for building and training.
+----------------------------------------
+Model Euclid with 2 layers took 12.00 for building and training.
+----------------------------------------
+Model Euclid with 4 layers took 21.15 for building and training.
+----------------------------------------

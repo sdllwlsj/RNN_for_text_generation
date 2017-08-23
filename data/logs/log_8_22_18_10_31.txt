@@ -1,0 +1,23 @@
+
+-----------------------------------------------------------------------
+
+We compute several models for sentence generation.
+
+-----------------------------------------------------------------------
+
+The models have different combinations of the following hyperparameters:
+	loss: least_square, cross-entropy, NCE.
+	trainable word embedding: True, False.
+	nb_layers:1,2,3,4.
+
+-----------------------------------------------------------------------
+------------------------------------------------------------
+Preparing data for look_back of 4
+The following files will be used:
+profundis.txt
+There are 1583 words in the vocabulary.
+Data took 0.55 seconds to prepare.
+
+------------------------------------------------------------
+Model Euclid with 1 layers took 12.01 for building and training.
+----------------------------------------

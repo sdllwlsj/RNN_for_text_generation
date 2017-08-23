@@ -88,6 +88,7 @@ class LSTMmodel:
 
 		folder_to_save=make_dir(folder_to_save)
 
+		self.folder_to_save=folder_to_save
 
 		print('Training LSTM with cross entropy loss')
 
@@ -158,3 +159,36 @@ class LSTMmodel:
 			feed_dict={self.input_words:X_batch}
 
 			return sess.run([self.pred_output],feed_dict=feed_dict)
+
+	def create_story(self,w2t,t2w,beginning):
+
+		story=[w2t[word] if word in w2t else 0 for word in beginning ][:self.look_back]
+
+		folder_to_save=self.folder_to_save
+		saver = tf.train.Saver()
+
+		with tf.Session() as sess:
+
+			sess.run(tf.global_variables_initializer())
+
+			ckpt = tf.train.get_checkpoint_state(folder_to_save)
+
+			if ckpt:
+				saver.restore(sess,ckpt.model_checkpoint_path)
+
+			for i in range(STORY_LENGTH):
+
+				X_batch=[story[-self.look_back:]]
+				feed_dict={self.input_words:X_batch}
+
+				next_token=sess.run(self.pred_output,feed_dict=feed_dict)
+				next_word=np.argmax(next_token[0])
+
+				#print(next_word.shape)
+
+				story+=[next_word]
+		
+		stories_file=open(folder_to_save+'/story.txt','a')
+		story = ' '.join([t2w[token] for token in story])
+		stories_file.write(story+'\n \n')
+
